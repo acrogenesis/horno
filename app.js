@@ -58,4 +58,4 @@ function travel(){
 }
 
 travel();
-var travelInterval = setInterval(travel, 10000);
+var travelInterval = setInterval(travel, 9000);

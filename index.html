@@ -60,13 +60,12 @@
       </div>
     </div>
   </div>
-  <script src="app.js" charset="utf-8"></script>
   <script src="three.min.js"></script>
   <script src="OBJLoader.js"></script>
   <script src="OrbitControls.js"></script>
   <script>
     var container;
-    var camera, scene, renderer, ambient, manager, texture, directionalLight, globalObject;
+    var camera, scene, renderer, ambient, manager, texture, textureLava, directionalLight, globalObject;
     var mouseX = 0, mouseY = 0;
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
@@ -93,6 +92,7 @@
         console.log( item, loaded, total );
       };
       texture = new THREE.Texture();
+      textureLava = new THREE.Texture();
       var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
           var percentComplete = xhr.loaded / xhr.total * 100;
@@ -102,16 +102,25 @@
       var onError = function ( xhr ) {
       };
       var loader = new THREE.ImageLoader( manager );
-      loader.load( 'eaf1.png', function ( image ) {
+      loader.load( 'eaf0.png', function ( image ) {
         texture.image = image;
         texture.needsUpdate = true;
+      } );
+      var loader = new THREE.ImageLoader( manager );
+      loader.load( 'lava.jpg', function ( image ) {
+        textureLava.image = image;
+        textureLava.needsUpdate = true;
       } );
       // model
       var loader = new THREE.OBJLoader( manager );
       loader.load( 'eaf.obj', function ( object ) {
         object.traverse( function ( child ) {
           if ( child instanceof THREE.Mesh ) {
-            child.material.map = texture;
+            if (child.name == 'Cylinder.001') {
+              child.material.map = texture;
+            }else if (child.name == 'Cube') {
+              child.material.map = textureLava;
+            }
           }
         } );
         object.position.y = 0;
@@ -154,5 +163,6 @@
       renderer.render( scene, camera );
     }
   </script>
+  <script src="app.js" charset="utf-8"></script>
 </body>
 </html>

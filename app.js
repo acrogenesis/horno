@@ -22,6 +22,11 @@ myAudio.addEventListener('ended', function() {
     this.play();
 }, false);
 function redify(led){
+  var loader = new THREE.ImageLoader( manager );
+  loader.load( 'eafred.png', function ( image ) {
+    texture.image = image;
+    texture.needsUpdate = true;
+  } );
   led = $(led);
   led.removeClass('led-green');
   led.addClass('led-red');
@@ -38,14 +43,19 @@ function travel(){
   }else {
     greenify(leds[count - 1]);
   }
-  if (count == 3) {
+  if (count == 29) {
     redify(leds[count]);
+    clearInterval(travelInterval);
   }else {
     yellowfy(leds[count]);
   }
-  // timeout
+  var loader = new THREE.ImageLoader( manager );
+  loader.load( 'eaf'+ (count % 8) +'.png', function ( image ) {
+    texture.image = image;
+    texture.needsUpdate = true;
+  } );
   count = count + 1;
 }
 
 travel();
-setInterval(travel, 3000);
+var travelInterval = setInterval(travel, 10000);

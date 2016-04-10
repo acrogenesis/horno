@@ -38,7 +38,7 @@ function travel(){
   }else {
     greenify(leds[count - 1]);
   }
-  if (count == 1) {
+  if (count == 3) {
     redify(leds[count]);
   }else {
     yellowfy(leds[count]);
